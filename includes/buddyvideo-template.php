@@ -16,7 +16,7 @@ function buddyvideo_is_user_online( $user_id ) {
 }
 
 function buddyvideo_get_video_chat_link() {
-	return wp_nonce_url( bp_loggedin_user_domain() . buddyvideo_get_slug() . '/chat?user=' . bp_displayed_user_id() . '&id=' . rand() );
+	return bp_loggedin_user_domain() . buddyvideo_get_slug() . '/chat?user=' . bp_displayed_user_id() . '&id=' . rand();
 }
 
 function buddyvideo_invite_button() {

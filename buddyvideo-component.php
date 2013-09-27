@@ -137,7 +137,8 @@ class Buddyvideo_Component extends BP_Component {
 		$includes = array(
 			'includes/buddyvideo-template.php',
 			'includes/buddyvideo-screens.php',
-			'includes/buddyvideo-notifications.php'
+			'includes/buddyvideo-notifications.php',
+			'includes/buddyvideo-ajax.php'
 		);
 
 		parent::includes( $includes );
