@@ -11,9 +11,14 @@ Author: Klandestino, redundans, lakrisgubben, alfreddatakillen
 Author URI: http://klandestino.se
 */
 
-/* Only load code that needs BuddyPress to run once BP is loaded and initialized. */
-function buddyvideo_init() {
-	require( dirname( __FILE__ ) . '/buddyvideo.php' );
+// Define a constant that we can use to construct file paths throughout the component
+define( 'BUDDYVIDEO_PLUGIN_DIR', dirname( __FILE__ ) );
+
+/* Only load the component if BuddyPress is loaded and initialized. */
+function bp_example_init() {
+	// Because our loader file uses BP_Component, it requires BP 1.5 or greater.
+	if ( version_compare( BP_VERSION, '1.3', '>' ) )
+		require( dirname( __FILE__ ) . '/buddyvideo-component.php' );
 }
-add_action( 'bp_include', 'buddyvideo_init' );
+add_action( 'bp_include', 'bp_example_init' );
 ?>
