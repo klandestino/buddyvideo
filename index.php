@@ -18,7 +18,7 @@ define( 'BUDDYVIDEO_PLUGIN_DIR', dirname( __FILE__ ) );
 function buddyvideo_init() {
 	// Because our loader file uses BP_Component, it requires BP 1.5 or greater.
 	if ( version_compare( BP_VERSION, '1.3', '>' ) )
-		require( dirname( __FILE__ ) . '/buddyvideo-component.php' );
+		require( dirname( __FILE__ ) . '/includes/buddyvideo-component.php' );
 }
 add_action( 'bp_include', 'buddyvideo_init' );
 ?>
