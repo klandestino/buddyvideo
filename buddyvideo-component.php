@@ -283,4 +283,11 @@ function buddyvideo_load_core_component() {
 }
 add_action( 'bp_loaded', 'buddyvideo_load_core_component' );
 
+function buddyvideo_add_script_and_styles() {
+	global $bp;
+
+	if ( $bp->current_component == $bp->buddyvideo->slug )
+		wp_enqueue_script( 'buddyvideo-js', plugins_url( '/buddyvideo/includes/buddyvideo.js' ) );
+}
+add_action( 'template_redirect', 'buddyvideo_add_script_and_styles', 1 );
 ?>
