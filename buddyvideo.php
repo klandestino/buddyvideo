@@ -25,11 +25,13 @@ function buddyvideo_screen_settings_menu() {
 }
 
 function buddyvideo_screen_settings_content() {
+	$user = get_user_by( 'id', $_GET['r'] );
+	_e( 'Attempting to start video chat with:  ' . $user->user_nicename, 'buddyvideo');
 	echo '<video></video>';
 }
 
 function buddyvideo_get_video_chat_link() {
-	return wp_nonce_url( bp_loggedin_user_domain() . '/video?r=' . bp_core_get_username( bp_displayed_user_id() ) );
+	return wp_nonce_url( bp_loggedin_user_domain() . 'video?r=' . bp_displayed_user_id() );
 }
 
 function buddyvideo_invite_button() {
