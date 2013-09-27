@@ -1,7 +1,8 @@
 <?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
 
 function buddyvideo_callback() {
-
 	$realm = $_POST['realm'];
 	$action = $_POST['act'];
 

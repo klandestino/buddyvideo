@@ -3,8 +3,7 @@ navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia 
 navigator.getUserMedia({ "audio": true, "video": true }, successCallback, errorCallback);
 
 function successCallback(stream) {
-    document.getElementById('myself').src = URL.createObjectURL(stream);
+	document.getElementById('myself').src = URL.createObjectURL(stream);
 }
-function errorCallback() {
 
-}
+function errorCallback() {}

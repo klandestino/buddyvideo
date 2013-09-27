@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Buddyvideo
-Plugin URI: http://klandestino.se/buddyvideo/
+Plugin URI: http://klandestino.se/
 Description: Buddypress plugin that uses webRTC for p2p videochats
 Version: 1.0
 Requires at least: WordPress 3.6 / BuddyPress 1.8
@@ -15,10 +15,10 @@ Author URI: http://klandestino.se
 define( 'BUDDYVIDEO_PLUGIN_DIR', dirname( __FILE__ ) );
 
 /* Only load the component if BuddyPress is loaded and initialized. */
-function bp_example_init() {
+function buddyvideo_init() {
 	// Because our loader file uses BP_Component, it requires BP 1.5 or greater.
 	if ( version_compare( BP_VERSION, '1.3', '>' ) )
 		require( dirname( __FILE__ ) . '/buddyvideo-component.php' );
 }
-add_action( 'bp_include', 'bp_example_init' );
+add_action( 'bp_include', 'buddyvideo_init' );
 ?>

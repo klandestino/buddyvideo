@@ -1,10 +1,15 @@
 <?php
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Runs when video chat tab is visited
+ *
+*/
 function buddyvideo_chat() {
 	add_action( 'bp_template_content', 'buddyvideo_chat_content' );
 	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 }
-
 function buddyvideo_chat_content() {
 	if ( isset( $_GET['user'] ) && isset( $_GET['id'] ) ) {
 		$user = get_user_by( 'id', $_GET['user'] );
@@ -19,11 +24,14 @@ function buddyvideo_chat_content() {
 	}
 }
 
+/**
+ * Runs when video main tab is visited
+ *
+*/
 function buddyvideo_list_chats() {
 	add_action( 'bp_template_content', 'buddyvideo_list_chats_content' );
 	bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 }
-
 function buddyvideo_list_chats_content() {
 	$notifications = buddyvideo_get_all_video_notifications_for_user( bp_loggedin_user_id() );
 	if ( $notifications ) {
@@ -37,5 +45,4 @@ function buddyvideo_list_chats_content() {
 		_e( 'No new video chat requests', 'buddyvideo' );
 	}
 }
-
 ?>

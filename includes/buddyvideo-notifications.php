@@ -1,15 +1,11 @@
 <?php
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * The format notification function will take DB entries for notifications and format them
  * so that they can be displayed and read on the screen.
  *
- * Notifications are "screen" notifications, that is, they appear on the notifications menu
- * in the site wide navigation bar. They are not for email notifications.
- *
- *
- * The recording is done by using bp_core_add_notification() which you can search for in this file for
- * examples of usage.
  */
 function buddyvideo_format_notifications( $action, $item_id, $secondary_item_id, $total_items ) {
 	global $bp;
