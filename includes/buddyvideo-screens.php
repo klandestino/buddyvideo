@@ -12,10 +12,14 @@ function buddyvideo_chat() {
 }
 function buddyvideo_chat_content() {
 	if ( isset( $_GET['user'] ) && isset( $_GET['id'] ) ) {
-		$user = get_user_by( 'id', $_GET['user'] );
-		bp_core_add_notification( $_GET['id'], $user->ID, 'buddyvideo', 'new_video_chat', bp_loggedin_user_id() );
-		_e( 'Attempting to start video chat with:  ' . $user->user_nicename, 'buddyvideo');
-		echo '<video autoplay id="myself"></video>';
+		if ( wp_verify_nonce( $_GET['buddyvideo_nonce'], 'buddyvideo_nonce' ) ) {
+			$user = get_user_by( 'id', $_GET['user'] );
+			bp_core_add_notification( $_GET['id'], $user->ID, 'buddyvideo', 'new_video_chat', bp_loggedin_user_id() );
+			_e( 'Attempting to start video chat with:  ' . $user->user_nicename, 'buddyvideo');
+			echo '<video autoplay id="myself"></video>';
+		} else {
+			echo 'Cheating uh?';
+		}
 	} elseif ( ! isset( $_GET['user'] ) && isset( $_GET['id'] ) ) {
 		bp_core_delete_notifications_by_item_id( bp_loggedin_user_id(), $_GET['id'], 'buddyvideo', 'new_video_chat' );
 		echo '<video autoplay id="myself"></video>';
