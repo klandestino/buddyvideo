@@ -68,4 +68,28 @@ function buddyvideo_get_all_video_notifications_for_user( $user_id ) {
 
  	return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND component_name = 'buddyvideo' AND component_action = 'new_video_chat' AND is_new = 1", $user_id ) );
 }
+
+/**
+ * Buddypress doesn't seem to have a way to get a notification by item_id for user,
+ * this function does that (but only if the component action and name matches our components)
+*/
+function buddyvideo_get_video_notification_by_item_id( $user_id, $item_id ) {
+	global $bp, $wpdb;
+	if ( $wpdb->get_var(
+		$wpdb->prepare(
+			"SELECT * FROM {$bp->core->table_name_notifications}
+			WHERE user_id = %d
+			AND item_id = %d
+			AND component_name = 'buddyvideo'
+			AND component_action = 'new_video_chat'
+			AND is_new = 1",
+			$user_id,
+			$item_id )
+		) != NULL
+	) :
+		return true;
+	else :
+		return false;
+	endif;
+}
 ?>
