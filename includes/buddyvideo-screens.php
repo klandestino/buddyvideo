@@ -14,8 +14,9 @@ function buddyvideo_chat_content() {
 	if ( isset( $_GET['user'] ) && isset( $_GET['id'] ) ) {
 		if ( wp_verify_nonce( $_GET['buddyvideo_nonce'], 'buddyvideo_nonce' ) ) {
 			$user = get_user_by( 'id', $_GET['user'] );
+			$user_fullname = $user->user_nicename;
 			bp_core_add_notification( $_GET['id'], $user->ID, 'buddyvideo', 'new_video_chat', bp_loggedin_user_id() );
-			_e( 'Attempting to start video chat with:  ' . $user->user_nicename, 'buddyvideo');
+			echo sprintf( __( 'Attempting to start video chat with: %s', 'buddyvideo' ), $user_fullname );
 			echo '<video autoplay id="myself"></video>';
 		} else {
 			echo 'Cheating uh?';

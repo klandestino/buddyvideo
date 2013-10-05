@@ -39,9 +39,9 @@ function buddyvideo_get_video_chat_link() {
 */
 function buddyvideo_invite_button() {
 	if ( buddyvideo_is_user_online( bp_displayed_user_id() ) ) {
-		$link_class = 'send-message online';
+		$link_class = 'start-videochat online';
 	} else {
-		$link_class = 'send-message';
+		$link_class = 'start-videochat';
 	}
 
 	bp_button( array(
@@ -63,9 +63,9 @@ add_action( 'bp_member_header_actions', 'buddyvideo_invite_button', 99 );
  * this function gets all notifications for user with the type 'new_video_chat' from the component 'buddyvideo'
  *
 */
-function buddyvideo_get_all_video_notifications_for_user( $user_id) {
+function buddyvideo_get_all_video_notifications_for_user( $user_id ) {
 	global $bp, $wpdb;
 
- 	return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND component_name = 'buddyvideo' AND is_new = 1", $user_id ) );
+ 	return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND component_name = 'buddyvideo' AND component_action = 'new_video_chat' AND is_new = 1", $user_id ) );
 }
 ?>
