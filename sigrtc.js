@@ -35,7 +35,8 @@
 			error: function(err) { // Callback on errors.
 			},
 			realm: window.location.href,
-			signalingDataChannel: null
+			signalingDataChannel: null,
+			customPostData: {}
 		}, options);
 
 		var isSignalingInstance = function () {
@@ -126,6 +127,7 @@
 					if (incounter > parseInt(msgParts[0])) {
 						try {
 							channel.send('ACK:' + msgParts[0] + ':' + msgParts[1]);
+							console.log('ACK:' + msgParts[0] + ':' + msgParts[1]);
 						} catch(e) {
 							//console.log(e);
 						}
@@ -134,6 +136,7 @@
 						inbuffer[msgParts[1]] = msgParts[3];
 						try {
 							channel.send('ACK:' + incounter + ':' + msgParts[1]);
+							console.log('ACK:' + incounter + ':' + msgParts[1]);
 						} catch(e) {
 							// console.log(e);
 						}
@@ -284,11 +287,11 @@
 		var findOffer = function(callback) {
 			console.log('findOffer();');
 			$.ajax({
-				data: {
+				data: $.extend(true, {
 					'realm': realm(),
 					'act': 'find',
 					'alreadyconn': alreadyconnected.join(',')
-				},
+				}, settings.customPostData),
 				dataType: 'json',
 				error: function() {
 					callback('Ajax error.');
@@ -301,7 +304,7 @@
 					callback(null, data.sdp, data.id);
 				},
 				type: 'POST',
-				url: '//sigrtc.turnservers.com/'
+				url: settings.sigRTCurl
 			});
 		};
 
@@ -309,12 +312,12 @@
 			offerer = true;
 			console.log('sendOffer();');
 			$.ajax({
-				data: {
+				data: $.extend(true, {
 					'realm': realm(),
 					'act': 'offer',
 					'sdp': sdp,
 					'alreadyconn': alreadyconnected.join(',')
-				},
+				}, settings.customPostData),
 				dataType: 'json',
 				error: function() {
 					callback('Ajax error.');
@@ -327,7 +330,7 @@
 					callback(null, data.id);
 				},
 				type: 'POST',
-				url: '//sigrtc.turnservers.com/'
+				url: settings.sigRTCurl
 			});
 
 		};
@@ -335,11 +338,11 @@
 		var waitForAnswer = function(id, callback) {
 			console.log('waitForAnswer();');
 			$.ajax({
-				data: {
+				data: $.extend(true, {
 					'realm': realm(),
 					'act': 'wait',
 					'id': id
-				},
+				}, settings.customPostData),
 				dataType: 'json',
 				error: function() {
 					callback('Ajax error.');
@@ -352,7 +355,7 @@
 					callback(null, data.sdp);
 				},
 				type: 'POST',
-				url: '//sigrtc.turnservers.com/'
+				url: settings.sigRTCurl
 			});
 		};
 		
@@ -360,12 +363,12 @@
 			offerer = false;
 			console.log('sendAnswer();');
 			$.ajax({
-				data: {
+				data: $.extend(true, {
 					'realm': realm(),
 					'act': 'answer',
 					'id': id,
 					'sdp': sdp
-				},
+				}, settings.customPostData),
 				dataType: 'json',
 				error: function() {
 					callback('Ajax error.');
@@ -382,7 +385,7 @@
 					callback(null, data.candidates);
 				},
 				type: 'POST',
-				url: '//sigrtc.turnservers.com/'
+				url: settings.sigRTCurl
 			});
 		};
 		
@@ -394,13 +397,13 @@
 			} else {
 				console.log('sendCandidates(id=' + id + ');');
 				$.ajax({
-					data: {
+					data: $.extend(true, {
 						'realm': realm(),
 						'act': 'cand',
 						'id': id,
 						'who': who,
 						'candidates': JSON.stringify(myCandidates)
-					},
+					}, settings.customPostData),
 					dataType: 'json',
 					error: function() {
 						callback('Ajax error.');
@@ -414,7 +417,7 @@
 						}
 					},
 					type: 'POST',
-					url: '//sigrtc.turnservers.com/'
+					url: settings.sigRTCurl
 				});
 			}
 		};
@@ -509,7 +512,9 @@
 			},
 			error: function(err) { // Callback on errors.
 			},
-			realm: window.location.href
+			realm: window.location.href,
+			sigRTCurl: '//sigrtc.turnservers.com/',
+			customPostData: {}
 		}, options);
 
 		var signalingInstance = new Instance({
@@ -524,9 +529,11 @@
 
 			},
 			error: function (err) {
-				options.error(err);
+				settings.error(err);
 			},
-			realm: options.realm
+			realm: settings.realm,
+			sigRTCurl: settings.sigRTCurl,
+			customPostData: settings.customPostData
 		});
 	};
 

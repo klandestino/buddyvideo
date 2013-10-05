@@ -39,6 +39,8 @@ $(document).ready(function() {
 				};
 			}
 
+			startChat();
+
 			$('#chatinput').keyup(function(e) {
 				if (e.keyCode == 13) {
 					console.dir(chatDataChannel);
@@ -59,6 +61,10 @@ $(document).ready(function() {
 				$video[0].src = URL.createObjectURL(e.stream);
 			}
 
+		},
+		sigRTCurl: '//sigrtc.turnservers.com/',
+		customPostData: {
+			'action': 'buddyvideo'
 		}
 	};
 	sigRTC(rtcOptions);
