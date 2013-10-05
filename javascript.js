@@ -59,7 +59,8 @@ $(document).ready(function() {
 				$video[0].src = URL.createObjectURL(e.stream);
 			}
 
-		}
+		},
+		sigRTCurl: '//sigrtc.turnservers.com/'
 	};
 	sigRTC(rtcOptions);
 

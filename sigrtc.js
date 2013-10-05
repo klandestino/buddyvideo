@@ -126,6 +126,7 @@
 					if (incounter > parseInt(msgParts[0])) {
 						try {
 							channel.send('ACK:' + msgParts[0] + ':' + msgParts[1]);
+							console.log('ACK:' + msgParts[0] + ':' + msgParts[1]);
 						} catch(e) {
 							//console.log(e);
 						}
@@ -134,6 +135,7 @@
 						inbuffer[msgParts[1]] = msgParts[3];
 						try {
 							channel.send('ACK:' + incounter + ':' + msgParts[1]);
+							console.log('ACK:' + incounter + ':' + msgParts[1]);
 						} catch(e) {
 							// console.log(e);
 						}
@@ -301,7 +303,7 @@
 					callback(null, data.sdp, data.id);
 				},
 				type: 'POST',
-				url: '//sigrtc.turnservers.com/'
+				url: settings.sigRTCurl
 			});
 		};
 
@@ -327,7 +329,7 @@
 					callback(null, data.id);
 				},
 				type: 'POST',
-				url: '//sigrtc.turnservers.com/'
+				url: settings.sigRTCurl
 			});
 
 		};
@@ -352,7 +354,7 @@
 					callback(null, data.sdp);
 				},
 				type: 'POST',
-				url: '//sigrtc.turnservers.com/'
+				url: settings.sigRTCurl
 			});
 		};
 		
@@ -382,7 +384,7 @@
 					callback(null, data.candidates);
 				},
 				type: 'POST',
-				url: '//sigrtc.turnservers.com/'
+				url: settings.sigRTCurl
 			});
 		};
 		
@@ -414,7 +416,7 @@
 						}
 					},
 					type: 'POST',
-					url: '//sigrtc.turnservers.com/'
+					url: settings.sigRTCurl
 				});
 			}
 		};
@@ -509,7 +511,8 @@
 			},
 			error: function(err) { // Callback on errors.
 			},
-			realm: window.location.href
+			realm: window.location.href,
+			sigRTCurl: '//sigrtc.turnservers.com/'
 		}, options);
 
 		var signalingInstance = new Instance({
@@ -524,9 +527,10 @@
 
 			},
 			error: function (err) {
-				options.error(err);
+				settings.error(err);
 			},
-			realm: options.realm
+			realm: settings.realm,
+			sigRTCurl: settings.sigRTCurl
 		});
 	};
 
