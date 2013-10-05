@@ -39,6 +39,8 @@ $(document).ready(function() {
 				};
 			}
 
+			startChat();
+
 			$('#chatinput').keyup(function(e) {
 				if (e.keyCode == 13) {
 					console.dir(chatDataChannel);
