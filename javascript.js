@@ -60,7 +60,10 @@ $(document).ready(function() {
 			}
 
 		},
-		sigRTCurl: '//sigrtc.turnservers.com/'
+		sigRTCurl: '//sigrtc.turnservers.com/',
+		customPostData: {
+			'action': 'buddyvideo'
+		}
 	};
 	sigRTC(rtcOptions);
 

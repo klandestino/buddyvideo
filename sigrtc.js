@@ -35,7 +35,8 @@
 			error: function(err) { // Callback on errors.
 			},
 			realm: window.location.href,
-			signalingDataChannel: null
+			signalingDataChannel: null,
+			customPostData: {}
 		}, options);
 
 		var isSignalingInstance = function () {
@@ -286,11 +287,11 @@
 		var findOffer = function(callback) {
 			console.log('findOffer();');
 			$.ajax({
-				data: {
+				data: $.extend(true, {
 					'realm': realm(),
 					'act': 'find',
 					'alreadyconn': alreadyconnected.join(',')
-				},
+				}, settings.customPostData),
 				dataType: 'json',
 				error: function() {
 					callback('Ajax error.');
@@ -311,12 +312,12 @@
 			offerer = true;
 			console.log('sendOffer();');
 			$.ajax({
-				data: {
+				data: $.extend(true, {
 					'realm': realm(),
 					'act': 'offer',
 					'sdp': sdp,
 					'alreadyconn': alreadyconnected.join(',')
-				},
+				}, settings.customPostData),
 				dataType: 'json',
 				error: function() {
 					callback('Ajax error.');
@@ -337,11 +338,11 @@
 		var waitForAnswer = function(id, callback) {
 			console.log('waitForAnswer();');
 			$.ajax({
-				data: {
+				data: $.extend(true, {
 					'realm': realm(),
 					'act': 'wait',
 					'id': id
-				},
+				}, settings.customPostData),
 				dataType: 'json',
 				error: function() {
 					callback('Ajax error.');
@@ -362,12 +363,12 @@
 			offerer = false;
 			console.log('sendAnswer();');
 			$.ajax({
-				data: {
+				data: $.extend(true, {
 					'realm': realm(),
 					'act': 'answer',
 					'id': id,
 					'sdp': sdp
-				},
+				}, settings.customPostData),
 				dataType: 'json',
 				error: function() {
 					callback('Ajax error.');
@@ -396,13 +397,13 @@
 			} else {
 				console.log('sendCandidates(id=' + id + ');');
 				$.ajax({
-					data: {
+					data: $.extend(true, {
 						'realm': realm(),
 						'act': 'cand',
 						'id': id,
 						'who': who,
 						'candidates': JSON.stringify(myCandidates)
-					},
+					}, settings.customPostData),
 					dataType: 'json',
 					error: function() {
 						callback('Ajax error.');
@@ -512,7 +513,8 @@
 			error: function(err) { // Callback on errors.
 			},
 			realm: window.location.href,
-			sigRTCurl: '//sigrtc.turnservers.com/'
+			sigRTCurl: '//sigrtc.turnservers.com/',
+			customPostData: {}
 		}, options);
 
 		var signalingInstance = new Instance({
@@ -530,7 +532,8 @@
 				settings.error(err);
 			},
 			realm: settings.realm,
-			sigRTCurl: settings.sigRTCurl
+			sigRTCurl: settings.sigRTCurl,
+			customPostData: settings.customPostData
 		});
 	};
 
