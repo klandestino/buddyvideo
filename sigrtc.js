@@ -259,7 +259,7 @@
 			} else {
 				peerConnection.onnegotiationneeded = function(e) {
 					console.log('peerConnection.onnegotiationneeded (at offerers end)');
-					renegotiate(); 
+					setTimeout(renegotiate, 1000);
 				}
 			}
 
@@ -302,6 +302,25 @@
 						return;
 					}
 					callback(null, data.sdp, data.id);
+				},
+				type: 'POST',
+				url: settings.sigRTCurl
+			});
+		};
+
+		var deleteOffer = function(id, callback) {
+			$.ajax({
+				data: $.extend(true, {
+					'realm': realm(),
+					'act': 'delete',
+					'id': id
+				}, settings.customPostData),
+				dataType: 'json',
+				error: function() {
+					callback();
+				},
+				success: function(data) {
+					callback(null);
 				},
 				type: 'POST',
 				url: settings.sigRTCurl
@@ -434,6 +453,27 @@
 						peerConnection.setLocalDescription(description);
 						console.log('Created offer.');
 						sendOffer(description.sdp, function(err, id) {
+
+							// Unloading should delete an unanswered offer (yeah i know it's somewhat hackish to make it fire as often as possible):
+							var unloadid = id;
+							var unload = function (callback) {
+								return function () {
+									if (unloadid !== null) {
+										deleteOffer(unloadid, function() {
+											if (typeof callback === 'function') {
+												callback();
+											}
+										});
+										unloadid = null;
+									}
+								}
+							}
+							window.onbeforeunload = unload(window.onbeforeunload);
+							window.onunload = unload(window.onunload);
+							$(window).bind('beforeunload', function () {
+								unload();
+							});
+
 							console.log('Offer was sent.');
 							waitForAnswer(id, function(err, sdp) {
 								if (err) {
@@ -441,6 +481,9 @@
 									// Something failed.
 								} else {
 									console.log('Got answer, id: ' + id);
+
+									// do not delete offer id on page unload - it is already deleted!
+									unloadid = null;
 
 									peerConnection.setRemoteDescription(new RTCSessionDescription({sdp: sdp, type: 'answer'}));
 									sendCandidates(id, 'offer', function(err, candidates) {
