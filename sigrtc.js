@@ -294,10 +294,10 @@
 				}, settings.customPostData),
 				dataType: 'json',
 				error: function() {
-					callback('Ajax error.');
+					callback('Not json, so probably, there was no offer.');
 				},
 				success: function(data) {
-					if (typeof data.sdp == 'undefined' || typeof data.id == 'undefined') {
+					if (data === null || typeof data.sdp == 'undefined' || typeof data.id == 'undefined') {
 						callback('Inproper data from server.');
 						return;
 					}
@@ -323,7 +323,7 @@
 					callback('Ajax error.');
 				},
 				success: function(data) {
-					if (typeof data.id == 'undefined') {
+					if (data === null || typeof data.id == 'undefined') {
 						callback('Some error occured.');
 						return;
 					}
@@ -348,7 +348,7 @@
 					callback('Ajax error.');
 				},
 				success: function(data) {
-					if (typeof data.sdp == 'undefined') {
+					if (data === null || typeof data.sdp == 'undefined') {
 						callback('No answer in response.');
 						return;
 					}
@@ -374,7 +374,7 @@
 					callback('Ajax error.');
 				},
 				success: function(data) {
-					if (typeof data.candidates == 'undefined') {
+					if (data === null || typeof data.candidates == 'undefined') {
 						callback('No data received from server.');
 						return;
 					}
@@ -410,7 +410,7 @@
 					},
 					success: function(data) {
 						console.log('Response on sendCandidates:');
-						if (data.candidates) {
+						if (data !== null && data.candidates) {
 							if (callback) callback(null, data.candidates);
 						} else {
 							if (callback) callback(null);
